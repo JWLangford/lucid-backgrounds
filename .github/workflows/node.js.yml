@@ -14,13 +14,13 @@ jobs:
           cmd: build # will run `yarn build` command
       - uses: wei/curl@master
         with:
-          curl: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
-          curl: unzip awscliv2.zip
-          curl: sudo ./aws/install
-          curl: aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }}
-          curl: aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }}
-          curl: aws configure set default.region us-east-1
-          curl: aws s3 sync --delete ./dist s3://swinghelperdevelopment
+          curl: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip \
+          unzip awscliv2.zip \
+          sudo ./aws/install \
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }} \
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }} \
+          aws configure set default.region us-east-1 \
+          aws s3 sync --delete ./dist s3://swinghelperdevelopment
 
 
           # args: aws cloudfront create-invalidation --distribution-id E247WE6NQC2UAJ --paths "/*"
