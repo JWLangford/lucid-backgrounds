@@ -1,5 +1,4 @@
 //@ts-nocheck
-import "./list.css"
 import "react-lazy-load-image-component/src/effects/blur.css"
 
 import Downloader from "js-file-downloader"
