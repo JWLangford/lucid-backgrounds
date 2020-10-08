@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --env.mode development --watch",
     "test": "jest",
-    "build": "rm -rf ./dist webpack --env.mode production && cp -r public/images dist && cp -r public/TTCommons dist && cp -r public/styles.css dist && cp -r public/sitemap.xml dist"
+    "build": "rm -rf ./dist && webpack --env.mode production && cp -r public/images dist && cp -r public/TTCommons dist && cp -r public/styles.css dist && cp -r public/sitemap.xml dist"
   },
   "dependencies": {
     "@babel/core": "^7.5.4",
