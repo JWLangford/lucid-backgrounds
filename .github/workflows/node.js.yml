@@ -12,3 +12,13 @@ jobs:
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: build # will run `yarn build` command
+      - uses: wei/curl@master
+        with:
+          args: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
+          args: unzip awscliv2.zip
+          args: sudo ./aws/install
+          args: aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }}
+          args: aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }}
+          args: aws configure set default.region us-east-1
+          args: aws s3 sync --delete ./dist s3://swinghelperdevelopment
+          # args: aws cloudfront create-invalidation --distribution-id E247WE6NQC2UAJ --paths "/*"
