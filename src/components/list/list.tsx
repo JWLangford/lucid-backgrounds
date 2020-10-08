@@ -39,6 +39,12 @@ export function List() {
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-62_-5Ho0LW4nTv.png",
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-5_-NVcqzrXHWn.png",
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-61_Vzvcw9DM10.png",
+    "https://ik.imagekit.io/e0ingeecpi/wallpaper-73_x_OYMqXSais.png",
+    "https://ik.imagekit.io/e0ingeecpi/wallpaper-74_pUHYV_Orq.png",
+    "https://ik.imagekit.io/e0ingeecpi/wallpaper-72_BHErq75OAl.png",
+    "https://ik.imagekit.io/e0ingeecpi/wallpaper-71_h1243VACU9.png",
+    "https://ik.imagekit.io/e0ingeecpi/wallpaper-70_bak_lO9_BFT_q.png",
+    "https://ik.imagekit.io/e0ingeecpi/wallpaper-64_mY5bU_TYKXc.png",
   ];
 
   const toggle = (index: number) => {
