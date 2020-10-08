@@ -11,7 +11,6 @@ export function List() {
 
   const landscapeImages = [
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-10_bak_wAwvF1N4eS.png",
-
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-25_dX6JSAIAvb.png",
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-23_OMXwVllmvG.png",
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-4_U4ehPEGXsnG.png",
@@ -40,7 +39,6 @@ export function List() {
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-41_GMCEvnpJC1I7.png",
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-62_-5Ho0LW4nTv.png",
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-5_-NVcqzrXHWn.png",
-
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-61_Vzvcw9DM10.png",
   ];
 
