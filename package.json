@@ -1,0 +1,65 @@
+{
+  "name": "my-simple-wallpaper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server --env.mode development --watch",
+    "test": "jest",
+    "build": "webpack --env.mode production"
+  },
+  "dependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jest": "^24.0.15",
+    "@types/react-lazy-load-image-component": "^1.5.1",
+    "babel-loader": "^8.0.6",
+    "js-file-downloader": "^1.1.11",
+    "milligram": "^1.4.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-lazy-load-image-component": "^1.5.0",
+    "ts-jest": "^24.0.2"
+  },
+  "devDependencies": {
+    "@types/enzyme": "^3.10.2",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.4",
+    "css-loader": "^4.3.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "enzyme-to-json": "^3.3.5",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^24.8.0",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^1.3.0",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.3",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/__tests__/setup/setupEnzyme.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/src/__tests__/setup/"
+    ],
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ]
+  }
+}
