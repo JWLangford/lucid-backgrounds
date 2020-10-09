@@ -25,6 +25,7 @@ export function List() {
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-24_bak_NsX4i1cR74.png",
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-26_7WRCcyAEh.png",
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-1_FPUVb05pfq.png",
+    "https://ik.imagekit.io/e0ingeecpi/wallpaper-80_IqvfUYRB4.png",
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-27_VZn7WOo7M2P.png",
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-15_tx_hJwYC5MH6.png",
     "https://ik.imagekit.io/e0ingeecpi/wallpaper-33_rr-G8PWopY.png",
