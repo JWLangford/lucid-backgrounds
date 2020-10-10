@@ -126,6 +126,7 @@ export function List() {
                   src={image}
                   height="200"
                   className="uk-transition-scale-up uk-transition-opaque"
+                  alt={`wallpaper-${index}`}
                 />
               </div>
             </div>
@@ -137,7 +138,7 @@ export function List() {
         <div id="modal-example" className="uk-modal">
           <div className="uk-modal-dialog">
             <div className="uk-modal-body">
-              <img className="uk-img" src={image} height="400" />
+              <img className="uk-img" src={image} height="400" alt={image} />
               <p className="uk-text-right"></p>
             </div>
             <div className="uk-modal-footer uk-text-right">
