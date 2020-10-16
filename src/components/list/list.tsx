@@ -76,8 +76,7 @@ export function List() {
   return (
     <div className="uk-animation-fade">
       <div
-        class="uk-grid-small uk-child-width-1-4@s uk-flex-center uk-text-center"
-        uk-grid
+        className="uk-grid uk-grid-small uk-child-width-1-4@s uk-flex-center uk-text-center"
       >
         <div className="uk-button-group" style={{ marginBottom: "40px" }}>
           <button
