@@ -1,90 +1,76 @@
-//@ts-nocheck
+// @ts-nocheck
 import "react-lazy-load-image-component/src/effects/blur.css"
+import "regenerator-runtime/runtime.js"
 
 import Downloader from "js-file-downloader"
 import * as React from "react"
 
-export function List() {
-  const [image, setImage] = React.useState("");
-  const [ratio, setRatio] = React.useState("uk-child-width-1-3");
+import { getImages } from "./fetch"
 
-  const landscapeImages = [
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-10_bak_wAwvF1N4eS.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-25_dX6JSAIAvb.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-23_OMXwVllmvG.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-4_U4ehPEGXsnG.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-60_bak_bUdALVIMYt9.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-6_sSVwKVvmKmCZ.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-7_WlKxYN3OOit.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-8_LbTohlNvcPr1.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-9_yV3czkpZ_0P.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-14_Ys1yDq2Xg0h.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-11_2lxRvu--2JR.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-12_qbrO4uJ1rr.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-22_vrZGbQ2BRTy.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-24_bak_NsX4i1cR74.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-26_7WRCcyAEh.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-1_FPUVb05pfq.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-80_IqvfUYRB4.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-27_VZn7WOo7M2P.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-15_tx_hJwYC5MH6.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-33_rr-G8PWopY.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-31_zIsyAqAaJ.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-30_ovh3D5sltz.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-34_wTdyQwthZf2.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-32_E38PCq1KQ.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-51_Ec3S6ksL6aSm.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-40_A1fqeRuGeD.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-50_p5H6tvkBvO.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-41_GMCEvnpJC1I7.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-62_-5Ho0LW4nTv.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-5_-NVcqzrXHWn.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-61_Vzvcw9DM10.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-73_x_OYMqXSais.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-74_pUHYV_Orq.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-72_BHErq75OAl.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-71_h1243VACU9.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-70_bak_lO9_BFT_q.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-64_mY5bU_TYKXc.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-87__g9CUArVNUpC.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-86_YXV0EMzK7zf1.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-88_AyyepzVYp.png",
-    "https://ik.imagekit.io/e0ingeecpi/wallpaper-89_QmKWgWJBp.png",
-  ];
+
+interface IImage {
+  url: string
+  alt: string
+  id: string
+  downloads: string
+}
+
+export function List() {
+  const emptyImage: IImage = {
+    id: "",
+    url: "",
+    alt: "",
+    downloads: ""
+  }
+  const [image, setImage] = React.useState<IImage>(emptyImage)
+  const [ratio, setRatio] = React.useState("uk-child-width-1-3")
+  const [images, setImages] = React.useState<IImage[]>([])
+  const IMAGE_PREFIX = "https://d37xqt7jhl117l.cloudfront.net/"
+
+  async function fetchImages() {
+    try {
+      const response = await getImages()
+      setImages(response.images)
+      console.log("resp: ", response)
+    } catch (error) {
+      console.log("Error: ", error)
+    }
+  }
+
+  React.useEffect(() => {
+    fetchImages()
+  }, [])
 
   const toggle = (index: number) => {
-    setImage(landscapeImages[index]);
-    window.UIkit.modal("#modal-example").toggle();
-  };
+    setImage(images[index])
+    window.UIkit.modal("#modal-example").toggle()
+  }
 
   const toggleRatio = (ratio: string) => {
-    setRatio(ratio);
-  };
+    setRatio(ratio)
+  }
 
-  const download = (url: string) => {
+  const download = (image: IImage) => {
     new Downloader({
-      url,
+     url: IMAGE_PREFIX + image.url,
     })
       .then(function () {
-        console.log("Done");
+        console.log("Done")
+        increaseDownloads(image.id)
       })
       .catch(function (error) {
-        console.log("Error: ", error);
-      });
-  };
+        console.log("Error: ", error)
+      })
+  }
 
   return (
     <div className="uk-animation-fade">
-      <div
-        className="uk-grid uk-grid-small uk-child-width-1-4@s uk-flex-center uk-text-center"
-      >
+      <div className="uk-grid uk-grid-small uk-child-width-1-4@s uk-flex-center uk-text-center">
         <div className="uk-button-group" style={{ marginBottom: "40px" }}>
           <button
             onClick={() => toggleRatio("uk-child-width-1-3")}
             className={`uk-button ${
-              ratio === "uk-child-width-1-3"
-                ? "uk-button-primary"
-                : "uk-button-default"
+              ratio === "uk-child-width-1-3" ? "uk-button-primary" : "uk-button-default"
             } `}
           >
             1 : 3
@@ -92,9 +78,7 @@ export function List() {
           <button
             onClick={() => toggleRatio("uk-child-width-1-2")}
             className={`uk-button ${
-              ratio === "uk-child-width-1-2"
-                ? "uk-button-primary"
-                : "uk-button-default"
+              ratio === "uk-child-width-1-2" ? "uk-button-primary" : "uk-button-default"
             } `}
           >
             1 : 2
@@ -102,9 +86,7 @@ export function List() {
           <button
             onClick={() => toggleRatio("uk-child-width-1-1")}
             className={`uk-button ${
-              ratio === "uk-child-width-1-1"
-                ? "uk-button-primary"
-                : "uk-button-default"
+              ratio === "uk-child-width-1-1" ? "uk-button-primary" : "uk-button-default"
             } `}
           >
             1 : 1
@@ -113,8 +95,8 @@ export function List() {
       </div>
 
       <div className={`uk-grid uk-grid-medium ${ratio}`}>
-        {landscapeImages.map((image, index) => (
-          <div key={image} style={{ marginBottom: "40px" }}>
+        {images.map((image, index) => (
+          <div key={image.id} style={{ marginBottom: "40px" }}>
             <div
               className="uk-card uk-card-default uk-card-body"
               style={{ cursor: "pointer" }}
@@ -122,10 +104,10 @@ export function List() {
             >
               <div className="uk-inline-clip uk-transition-toggle">
                 <img
-                  src={image}
+                  src={IMAGE_PREFIX + image.url}
                   height="200"
                   className="uk-transition-scale-up uk-transition-opaque"
-                  alt={`wallpaper-${index}`}
+                  alt={image.alt}
                 />
               </div>
             </div>
@@ -137,14 +119,11 @@ export function List() {
         <div id="modal-example" className="uk-modal">
           <div className="uk-modal-dialog">
             <div className="uk-modal-body">
-              <img className="uk-img" src={image} height="400" alt={image} />
+              <img className="uk-img" src={IMAGE_PREFIX + image.url} height="400" alt={image.alt} />
               <p className="uk-text-right"></p>
             </div>
             <div className="uk-modal-footer uk-text-right">
-              <button
-                className="uk-button uk-button-default uk-modal-close"
-                type="button"
-              >
+              <button className="uk-button uk-button-default uk-modal-close" type="button">
                 Cancel
               </button>
               <button
@@ -159,5 +138,5 @@ export function List() {
         </div>
       </div>
     </div>
-  );
+  )
 }
