@@ -21,7 +21,6 @@
     "antd": "^4.9.2",
     "babel-loader": "^8.0.6",
     "js-file-downloader": "^1.1.11",
-    "milligram": "^1.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-lazy-load-image-component": "^1.5.0",

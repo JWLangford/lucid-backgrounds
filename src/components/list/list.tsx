@@ -3,7 +3,7 @@ import "react-lazy-load-image-component/src/effects/blur.css"
 import "regenerator-runtime/runtime.js"
 
 import { CloudDownloadOutlined } from "@ant-design/icons"
-import { Button, Col, Image, Radio, Row } from "antd"
+import { Button, Col, Image, Radio, Row, Spin } from "antd"
 import { RadioChangeEvent } from "antd/lib/radio"
 import * as React from "react"
 
@@ -19,14 +19,18 @@ interface IImage {
 export function List() {
   const [ratio, setRatio] = React.useState(6)
   const [images, setImages] = React.useState<IImage[]>([])
+  const [loading, setLoading] = React.useState(false)
   const IMAGE_PREFIX = "https://d37xqt7jhl117l.cloudfront.net/"
 
   async function fetchImages() {
+    setLoading(true)
     try {
       const response = await getImages()
       setImages(response.images)
+      setLoading(false)
     } catch (error) {
       console.error(error)
+      setLoading(false)
     }
   }
 
@@ -45,38 +49,6 @@ export function List() {
   const toggleRatio = (e: RadioChangeEvent) => {
     setRatio(e.target.value)
   }
-
-  const saveData = (function () {
-    var a = document.createElement("a")
-    document.body.appendChild(a)
-    a.style = "display: none"
-    return function (data, fileName) {
-      var json = JSON.stringify(data),
-        blob = new Blob([json], { type: "octet/stream" }),
-        url = window.URL.createObjectURL(blob)
-      a.href = url
-      a.download = fileName
-      a.click()
-      window.URL.revokeObjectURL(url)
-    }
-  })()
-
-  // const download = (image: IImage) => {
-  // const link = document.createElement("a")
-  // link.href = image.url
-  // document.body.appendChild(link)
-  // link.click()
-  // document.body.removeChild(link)
-  // new Downloader({
-  //   url: IMAGE_PREFIX + image.url,
-  // })
-  //   .then(function () {
-  //     increaseDownloads(image.id)
-  //   })
-  //   .catch(function (error) {
-  //     console.error(error)
-  //   })
-  // }
 
   const onClickImage = (value: boolean) => {
     if (value) {
@@ -101,15 +73,19 @@ export function List() {
   return (
     <div>
       <Row justify="center" style={{ marginBottom: "40px" }}>
-        <Col span={5}>
-          <Radio.Group value={ratio} onChange={toggleRatio}>
-            <Radio.Button value={6}>1 : 4</Radio.Button>
-            <Radio.Button value={8}>1 : 3</Radio.Button>
-            <Radio.Button value={12}>1 : 2</Radio.Button>
-            <Radio.Button value={24}>1 : 1</Radio.Button>
-          </Radio.Group>
-        </Col>
+        <Radio.Group value={ratio} onChange={toggleRatio}>
+          <Radio.Button value={6}>1 : 4</Radio.Button>
+          <Radio.Button value={8}>1 : 3</Radio.Button>
+          <Radio.Button value={12}>1 : 2</Radio.Button>
+          <Radio.Button value={24}>1 : 1</Radio.Button>
+        </Radio.Group>
       </Row>
+
+      {loading && (
+        <Row justify="center">
+          <Spin size="large" />
+        </Row>
+      )}
 
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         {images.map((image) => (
@@ -120,7 +96,7 @@ export function List() {
             span={ratio}
           >
             <Button
-              type="link"
+              type="text"
               style={{ position: "absolute", zIndex: 1 }}
               icon={<CloudDownloadOutlined />}
               onClick={() => download(IMAGE_PREFIX + image.url)}
