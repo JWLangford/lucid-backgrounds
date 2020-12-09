@@ -1,20 +1,19 @@
+import "antd/dist/antd.css"
+
+import { Layout } from "antd"
 import * as React from "react"
 
-import { Header, List } from "../components"
+import { Header as MainHeader, List } from "../components"
+
+const { Content } = Layout
 
 export const App: React.FC = () => {
   return (
-    <div className="uk-container">
-      <div className="row">
-        <div className="column">
-          <Header />
-        </div>
-      </div>
-      <div className="row">
-        <div className="column">
-          <List />
-        </div>
-      </div>
-    </div>
-  );
-};
+    <Layout className="layout">
+      <Content style={{ padding: "0 50px" }}>
+        <MainHeader />
+        <List />
+      </Content>
+    </Layout>
+  )
+}

@@ -9,13 +9,16 @@
     "build": "rm -rf ./dist && webpack --env.mode production && cp -r public/images dist && cp -r public/TTCommons dist && cp -r public/styles.css dist && cp -r public/sitemap.xml dist && cp -r public/robots.txt dist"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.3.0",
     "@babel/core": "^7.5.4",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
+    "@types/antd": "^1.0.0",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/jest": "^24.0.15",
     "@types/react-lazy-load-image-component": "^1.5.1",
+    "antd": "^4.9.2",
     "babel-loader": "^8.0.6",
     "js-file-downloader": "^1.1.11",
     "milligram": "^1.4.1",

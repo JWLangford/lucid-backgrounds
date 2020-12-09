@@ -2,11 +2,12 @@
 import "react-lazy-load-image-component/src/effects/blur.css"
 import "regenerator-runtime/runtime.js"
 
-import Downloader from "js-file-downloader"
+import { CloudDownloadOutlined } from "@ant-design/icons"
+import { Button, Col, Image, Radio, Row } from "antd"
+import { RadioChangeEvent } from "antd/lib/radio"
 import * as React from "react"
 
-import { getImages } from "./fetch"
-
+import { downloadImage, getImages } from "./fetch"
 
 interface IImage {
   url: string
@@ -16,14 +17,7 @@ interface IImage {
 }
 
 export function List() {
-  const emptyImage: IImage = {
-    id: "",
-    url: "",
-    alt: "",
-    downloads: ""
-  }
-  const [image, setImage] = React.useState<IImage>(emptyImage)
-  const [ratio, setRatio] = React.useState("uk-child-width-1-3")
+  const [ratio, setRatio] = React.useState(6)
   const [images, setImages] = React.useState<IImage[]>([])
   const IMAGE_PREFIX = "https://d37xqt7jhl117l.cloudfront.net/"
 
@@ -31,9 +25,16 @@ export function List() {
     try {
       const response = await getImages()
       setImages(response.images)
-      console.log("resp: ", response)
     } catch (error) {
-      console.log("Error: ", error)
+      console.error(error)
+    }
+  }
+
+  async function download(url: string) {
+    try {
+      await downloadImage(url)
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -41,102 +42,100 @@ export function List() {
     fetchImages()
   }, [])
 
-  const toggle = (index: number) => {
-    setImage(images[index])
-    window.UIkit.modal("#modal-example").toggle()
+  const toggleRatio = (e: RadioChangeEvent) => {
+    setRatio(e.target.value)
   }
 
-  const toggleRatio = (ratio: string) => {
-    setRatio(ratio)
-  }
+  const saveData = (function () {
+    var a = document.createElement("a")
+    document.body.appendChild(a)
+    a.style = "display: none"
+    return function (data, fileName) {
+      var json = JSON.stringify(data),
+        blob = new Blob([json], { type: "octet/stream" }),
+        url = window.URL.createObjectURL(blob)
+      a.href = url
+      a.download = fileName
+      a.click()
+      window.URL.revokeObjectURL(url)
+    }
+  })()
 
-  const download = (image: IImage) => {
-    new Downloader({
-     url: IMAGE_PREFIX + image.url,
-    })
-      .then(function () {
-        console.log("Done")
-        increaseDownloads(image.id)
-      })
-      .catch(function (error) {
-        console.log("Error: ", error)
-      })
+  // const download = (image: IImage) => {
+  // const link = document.createElement("a")
+  // link.href = image.url
+  // document.body.appendChild(link)
+  // link.click()
+  // document.body.removeChild(link)
+  // new Downloader({
+  //   url: IMAGE_PREFIX + image.url,
+  // })
+  //   .then(function () {
+  //     increaseDownloads(image.id)
+  //   })
+  //   .catch(function (error) {
+  //     console.error(error)
+  //   })
+  // }
+
+  const onClickImage = (value: boolean) => {
+    if (value) {
+      setTimeout(() => {
+        const operations = document.getElementsByClassName("ant-image-preview-operations")
+        if (operations && operations.length > 0) {
+          const lineElement = document.createElement("li")
+          const spanElement = document.createElement("div")
+
+          lineElement.className = "ant-image-preview-operations-operation"
+
+          spanElement.className = "anticon"
+          spanElement.setAttribute("dangerouslySetInnerHTML", <CloudDownloadOutlined />)
+          lineElement.appendChild(spanElement)
+
+          operations.item(operations.length - 1).appendChild(lineElement)
+        }
+      }, 1000)
+    }
   }
 
   return (
-    <div className="uk-animation-fade">
-      <div className="uk-grid uk-grid-small uk-child-width-1-4@s uk-flex-center uk-text-center">
-        <div className="uk-button-group" style={{ marginBottom: "40px" }}>
-          <button
-            onClick={() => toggleRatio("uk-child-width-1-3")}
-            className={`uk-button ${
-              ratio === "uk-child-width-1-3" ? "uk-button-primary" : "uk-button-default"
-            } `}
-          >
-            1 : 3
-          </button>
-          <button
-            onClick={() => toggleRatio("uk-child-width-1-2")}
-            className={`uk-button ${
-              ratio === "uk-child-width-1-2" ? "uk-button-primary" : "uk-button-default"
-            } `}
-          >
-            1 : 2
-          </button>
-          <button
-            onClick={() => toggleRatio("uk-child-width-1-1")}
-            className={`uk-button ${
-              ratio === "uk-child-width-1-1" ? "uk-button-primary" : "uk-button-default"
-            } `}
-          >
-            1 : 1
-          </button>
-        </div>
-      </div>
+    <div>
+      <Row justify="center" style={{ marginBottom: "40px" }}>
+        <Col span={5}>
+          <Radio.Group value={ratio} onChange={toggleRatio}>
+            <Radio.Button value={6}>1 : 4</Radio.Button>
+            <Radio.Button value={8}>1 : 3</Radio.Button>
+            <Radio.Button value={12}>1 : 2</Radio.Button>
+            <Radio.Button value={24}>1 : 1</Radio.Button>
+          </Radio.Group>
+        </Col>
+      </Row>
 
-      <div className={`uk-grid uk-grid-medium ${ratio}`}>
-        {images.map((image, index) => (
-          <div key={image.id} style={{ marginBottom: "40px" }}>
-            <div
-              className="uk-card uk-card-default uk-card-body"
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        {images.map((image) => (
+          <Col
+            key={image.id}
+            style={{ marginBottom: "40px", position: "relative" }}
+            className="gutter-row"
+            span={ratio}
+          >
+            <Button
+              type="link"
+              style={{ position: "absolute", zIndex: 1 }}
+              icon={<CloudDownloadOutlined />}
+              onClick={() => download(IMAGE_PREFIX + image.url)}
+            />
+
+            <Image
+              src={IMAGE_PREFIX + image.url}
+              height="200"
               style={{ cursor: "pointer" }}
-              onClick={() => toggle(index)}
-            >
-              <div className="uk-inline-clip uk-transition-toggle">
-                <img
-                  src={IMAGE_PREFIX + image.url}
-                  height="200"
-                  className="uk-transition-scale-up uk-transition-opaque"
-                  alt={image.alt}
-                />
-              </div>
-            </div>
-          </div>
+              alt={image.alt}
+              preview={{ onVisibleChange: onClickImage }}
+            />
+          </Col>
         ))}
-      </div>
-
-      <div>
-        <div id="modal-example" className="uk-modal">
-          <div className="uk-modal-dialog">
-            <div className="uk-modal-body">
-              <img className="uk-img" src={IMAGE_PREFIX + image.url} height="400" alt={image.alt} />
-              <p className="uk-text-right"></p>
-            </div>
-            <div className="uk-modal-footer uk-text-right">
-              <button className="uk-button uk-button-default uk-modal-close" type="button">
-                Cancel
-              </button>
-              <button
-                onClick={() => download(image)}
-                className="uk-button uk-button-primary"
-                type="button"
-              >
-                Download
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      </Row>
     </div>
   )
 }
