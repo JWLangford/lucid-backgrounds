@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --env.mode development --watch",
     "test": "jest",
-    "build": "rm -rf ./dist && webpack --env.mode production && cp -r public/images dist && cp -r public/TTCommons dist && cp -r public/styles.css dist && cp -r public/sitemap.xml dist && cp -r public/robots.txt dist"
+    "build": "rm -rf ./dist && webpack --env.mode production && cp -r public/images dist && cp -r public/styles.css dist && cp -r public/sitemap.xml dist && cp -r public/robots.txt dist"
   },
   "dependencies": {
     "@ant-design/icons": "^4.3.0",
