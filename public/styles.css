@@ -1,11 +1,5 @@
-@font-face {
-  font-family: "TTCommons";
-  src: url("./TTCommons/TTCommons-Light.eot");
-  src: url("./TTCommons/TTCommons-Light.woff");
-}
-
 body,
 html {
-  font-family: "TTCommons", sans-serif;
+  font-family: "Mulish", sans-serif !important;
   min-width: 1440px;
 }
